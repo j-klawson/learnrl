@@ -17,7 +17,7 @@ from learnrl.bandits import EpsilonGreedyBandit
 from learnrl.utils import BanditTestEnvironment
 
 # Default directory for saving plots
-plotdir = "plots/bandits"
+plotdir = "plots/bandits/"
 
 
 @dataclass
@@ -167,7 +167,7 @@ def plot_results(results: List[ExperimentResult], save_path: Optional[str] = Non
     """
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
-    colors = ["red", "green", "blue", "orange", "purple"]
+    colors = ["green", "red", "blue", "orange", "purple"]
 
     # Plot average reward
     for i, result in enumerate(results):
