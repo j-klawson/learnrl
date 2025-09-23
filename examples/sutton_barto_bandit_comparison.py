@@ -278,7 +278,7 @@ if __name__ == "__main__":
         num_steps=1000,
         seed=42,
         plot=True,
-        save_plot="sutton_barto_bandit_comparison.png",
+        save_plot="plots/sutton_barto_bandit_comparison.png",
     )
 
     print("Experiment completed!")

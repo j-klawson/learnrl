@@ -16,7 +16,7 @@ if __name__ == "__main__":
         num_steps=100,  # Reduced from 1000
         seed=42,
         plot=True,
-        save_plot="quick_bandit_demo.png",
+        save_plot="plots/quick_bandit_demo.png",
     )
 
     print("Quick demo completed!")

@@ -197,7 +197,7 @@ All RL algorithms (TD/DP modules) are designed to work seamlessly with Gymnasium
 
 MIT License - see LICENSE file for details.
 
-Copyright (c) 2024 Keith Lawson
+Copyright (c) 2025 Keith Lawson
 
 ## Reference
 
