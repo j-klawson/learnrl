@@ -202,7 +202,7 @@ Copyright (c) 2024 Keith Lawson
 ## Reference
 
 - Sutton, R. S., & Barto, A. G. (2020). [*Reinforcement Learning: An Introduction*](http://incompleteideas.net/book/the-book-2nd.html) (2nd ed.). MIT Press.
-- [Richard Sutton's Code Repository](http://incompleteideas.net/book/code/code2nd.html)
+- [Richard Sutton's personal page for the book](http://incompleteideas.net/book/the-book-2nd.html)
 
 ## Contact
 
