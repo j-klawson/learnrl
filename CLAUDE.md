@@ -49,18 +49,28 @@ pip install -e ".[dev,gym]"
 - `learnrl/` - Main package directory
   - `learnrl/bandits/` - Multi-armed bandit algorithms
     - `epsilon_greedy.py` - EpsilonGreedyBandit implementation
-  - `learnrl/dp/` - Dynamic programming algorithms (coming soon)
+  - `learnrl/dp/` - Dynamic programming algorithms
+    - `policy_iteration.py` - Policy Iteration (Algorithm 4.3)
+    - `value_iteration.py` - Value Iteration (Algorithm 4.4)
   - `learnrl/td/` - Temporal difference learning algorithms (coming soon)
   - `learnrl/utils/` - Utility functions and test environments
     - `bandit_env.py` - BanditTestEnvironment for experiments
+    - `gridworld_env.py` - GridWorld environment for DP testing
 - `examples/` - Example scripts and demos
   - `sutton_barto_bandit_comparison.py` - Full S&B experimental comparison
   - `quick_bandit_demo.py` - Quick demonstration script
-- `tests/` - Comprehensive test suite (63 tests)
+  - `gridworld_dp_comparison.py` - DP algorithm comparison and analysis
+  - `dp_visualization_demo.py` - Step-by-step DP visualizations
+- `tests/` - Comprehensive test suite (120+ tests)
   - `tests/bandits/` - Tests for bandit algorithms
+  - `tests/dp/` - Tests for dynamic programming algorithms
   - `tests/utils/` - Tests for utility functions
   - `tests/conftest.py` - Test fixtures and configuration
   - `tests/test_integration.py` - Integration and experiment tests
+- `plots/` - Organized plot output directories
+  - `plots/bandits/` - Bandit experiment results
+  - `plots/gridworld/` - GridWorld DP comparisons
+  - `plots/dp/` - DP step-by-step visualizations
 
 ## Coding Standards
 
@@ -92,15 +102,20 @@ black learnrl/ tests/ examples/ && mypy learnrl/ && flake8 learnrl/ && pytest
 **Completed:**
 - ✅ EpsilonGreedyBandit with comprehensive test suite (23 tests)
 - ✅ BanditTestEnvironment for experimental setup (20+ tests)
+- ✅ PolicyIteration algorithm with comprehensive test suite (28 tests)
+- ✅ ValueIteration algorithm with comprehensive test suite (32 tests)
+- ✅ GridWorldEnv test environment with full Gymnasium compatibility (17 tests)
 - ✅ Sutton & Barto Section 2.3 experiment reproduction
-- ✅ Complete test infrastructure with fixtures and integration tests
+- ✅ Complete DP algorithm comparison and visualization examples
 - ✅ Full code quality pipeline (Black, MyPy, Flake8, Pytest)
+- ✅ Organized plot output structure with configurable directories
 
 **Test Coverage:**
-- 63 total tests across all modules
+- 120+ total tests across all modules
 - 100% coverage for implemented algorithms
 - Integration tests for algorithm comparisons
-- Parametrized tests for edge cases
+- Parametrized tests for edge cases and different configurations
+- Cross-algorithm comparison testing
 
 ## Dependencies
 
@@ -171,5 +186,47 @@ All implementations should include tests demonstrating:
 - Learning progress over episodes
 
 **Note**: Bandits use synthetic reward distributions rather than environments, so Gymnasium integration is not required for bandit algorithms.
+
+## Plot Organization and Examples
+
+### Configurable Plot Directories
+
+All example scripts include a configurable `plotdir` variable for organized output:
+
+```python
+# In each example script
+plotdir = "plots/subdirectory/"  # Can be easily customized
+```
+
+**Default Structure:**
+- `plots/bandits/` - Bandit algorithm experiments and comparisons
+- `plots/gridworld/` - GridWorld environment analysis and algorithm comparisons
+- `plots/dp/` - Dynamic programming step-by-step visualizations and animations
+
+### Example Scripts
+
+**Bandit Examples:**
+- `sutton_barto_bandit_comparison.py` - Reproduces Section 2.3 experiment
+- `quick_bandit_demo.py` - Quick demonstration with reduced parameters
+
+**Dynamic Programming Examples:**
+- `gridworld_dp_comparison.py` - Comprehensive algorithm comparison on multiple environments
+- `dp_visualization_demo.py` - Step-by-step visualizations with PNG outputs and GIF animations
+
+### Running Examples
+
+All examples automatically create the necessary plot directories and save organized outputs:
+
+```bash
+# Run bandit comparison (saves to plots/bandits/)
+python examples/sutton_barto_bandit_comparison.py
+
+# Run DP comparison (saves to plots/gridworld/)
+python examples/gridworld_dp_comparison.py
+
+# Run DP visualizations (saves to plots/dp/)
+python examples/dp_visualization_demo.py
+```
+
 - Be sure all algorithm implementations will work with gymnasium
 - It's 2025. the copyright should be 2025, not 2024.

@@ -6,6 +6,7 @@ An Introduction" comparing greedy and ε-greedy action-value methods on 2000
 randomly generated 10-armed bandit problems.
 """
 
+import os
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,6 +15,9 @@ from dataclasses import dataclass
 
 from learnrl.bandits import EpsilonGreedyBandit
 from learnrl.utils import BanditTestEnvironment
+
+# Default directory for saving plots
+plotdir = "plots/bandits"
 
 
 @dataclass
@@ -192,6 +196,8 @@ def plot_results(results: List[ExperimentResult], save_path: Optional[str] = Non
     plt.tight_layout()
 
     if save_path:
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path, dpi=300, bbox_inches="tight")
         print(f"Figure saved to {save_path}")
 
@@ -278,7 +284,7 @@ if __name__ == "__main__":
         num_steps=1000,
         seed=42,
         plot=True,
-        save_plot="plots/sutton_barto_bandit_comparison.png",
+        save_plot=f"{plotdir}sutton_barto_bandit_comparison.png",
     )
 
     print("Experiment completed!")

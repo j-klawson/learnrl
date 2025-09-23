@@ -67,9 +67,7 @@ class BanditTestEnvironment:
             msg = f"Action {action} not in valid range [0, {self.k-1}]"
             raise ValueError(msg)
 
-        reward = torch.normal(
-            mean=self.true_values[action], std=self.reward_std
-        ).item()
+        reward = torch.normal(mean=self.true_values[action], std=self.reward_std).item()
 
         return reward
 

@@ -71,7 +71,38 @@ results = run_sutton_barto_experiment(
 )
 ```
 
-### RL Algorithms with Gymnasium
+### Dynamic Programming Algorithms
+
+```python
+from learnrl.dp import PolicyIteration, ValueIteration
+from learnrl.utils import create_simple_gridworld
+
+# Create a simple 4x4 GridWorld environment
+env = create_simple_gridworld()
+
+# Get transition model
+P = env.get_transition_probabilities()
+R = env.get_reward_tensor()
+
+# Solve with Policy Iteration
+pi = PolicyIteration(env.n_states, env.n_actions, P, R)
+pi_result = pi.solve()
+print(f"Policy Iteration converged in {pi_result['iterations']} steps")
+
+# Solve with Value Iteration
+vi = ValueIteration(env.n_states, env.n_actions, P, R)
+vi_result = vi.solve()
+print(f"Value Iteration converged in {vi_result['iterations']} steps")
+
+# Render optimal policies
+print("Policy Iteration optimal policy:")
+print(env.render(mode="ascii", policy=pi.get_policy()))
+
+print("Value Iteration optimal policy:")
+print(env.render(mode="ascii", policy=vi.get_policy()))
+```
+
+### RL Algorithms with Gymnasium (Coming Soon)
 
 ```python
 import gymnasium as gym
@@ -102,21 +133,52 @@ learnrl/
 ├── bandits/           # Multi-armed bandit algorithms
 │   ├── __init__.py
 │   └── epsilon_greedy.py
-├── dp/                # Dynamic programming (coming soon)
+├── dp/                # Dynamic programming algorithms
+│   ├── __init__.py
+│   ├── policy_iteration.py  # Policy Iteration (Algorithm 4.3)
+│   └── value_iteration.py   # Value Iteration (Algorithm 4.4)
 ├── td/                # Temporal difference learning (coming soon)
 ├── utils/             # Utilities and test environments
 │   ├── __init__.py
-│   └── bandit_env.py  # BanditTestEnvironment for experiments
+│   ├── bandit_env.py        # BanditTestEnvironment for experiments
+│   └── gridworld_env.py     # GridWorld environment for DP testing
 └── __init__.py
 examples/
-├── sutton_barto_bandit_comparison.py  # Full S&B experiment
-└── quick_bandit_demo.py               # Quick demo
+├── sutton_barto_bandit_comparison.py  # Full S&B bandit experiment
+├── quick_bandit_demo.py               # Quick bandit demo
+├── gridworld_dp_comparison.py         # DP algorithm comparison
+└── dp_visualization_demo.py           # DP step-by-step visualizations
 tests/
 ├── bandits/           # Tests for bandit algorithms
+├── dp/                # Tests for dynamic programming algorithms
 ├── utils/             # Tests for utility functions
 ├── conftest.py        # Test fixtures and configuration
 └── test_integration.py # Integration tests
+plots/
+├── bandits/           # Bandit experiment plots
+├── gridworld/         # GridWorld DP comparison plots
+└── dp/                # DP visualization plots
 ```
+
+## Examples and Visualizations
+
+The `examples/` directory contains educational demonstrations:
+
+### Bandit Examples
+- **`sutton_barto_bandit_comparison.py`**: Reproduces the classic Section 2.3 experiment
+- **`quick_bandit_demo.py`**: Quick demonstration with reduced parameters
+
+### Dynamic Programming Examples
+- **`gridworld_dp_comparison.py`**: Comprehensive comparison of Policy vs Value Iteration
+- **`dp_visualization_demo.py`**: Step-by-step algorithm visualization with animations
+
+### Plot Organization
+All examples save plots to organized subdirectories:
+- `plots/bandits/`: Bandit algorithm results and comparisons
+- `plots/gridworld/`: GridWorld environment comparisons and analysis
+- `plots/dp/`: Step-by-step DP algorithm visualizations and animations
+
+Each script includes a configurable `plotdir` variable for easy customization of output locations.
 
 ## Algorithms Implemented
 
@@ -133,8 +195,21 @@ tests/
 - [ ] **Thompson Sampling** - Section 2.8
 
 ### Dynamic Programming
-- [ ] **Value Iteration** - Section 4.4
-- [ ] **Policy Iteration** - Section 4.3
+- [x] **Policy Iteration** (`PolicyIteration`) - Section 4.3
+  - ✅ Complete implementation following Algorithm 4.3
+  - ✅ Policy evaluation and improvement steps
+  - ✅ Comprehensive test suite (28 tests)
+  - ✅ GridWorld environment integration
+- [x] **Value Iteration** (`ValueIteration`) - Section 4.4
+  - ✅ Complete implementation following Algorithm 4.4
+  - ✅ Bellman optimality equation updates
+  - ✅ Comprehensive test suite (32 tests)
+  - ✅ Automatic policy extraction
+- [x] **GridWorld Environment** (`GridWorldEnv`) - Testing utility
+  - ✅ Gymnasium-compatible interface
+  - ✅ Deterministic and stochastic transitions
+  - ✅ ASCII and matplotlib rendering
+  - ✅ Full test coverage (17 tests)
 
 ### Temporal Difference Learning
 - [ ] **Monte Carlo** - Chapter 5
@@ -146,7 +221,7 @@ tests/
 
 ### Test Coverage
 Current test statistics:
-- **63 total tests** across all modules
+- **120+ total tests** across all modules
 - **100% coverage** for implemented algorithms
 - **Integration tests** for algorithm comparisons
 - **Parametrized tests** for edge cases and different configurations
@@ -160,6 +235,7 @@ pytest --cov=learnrl
 
 # Run specific test modules
 pytest tests/bandits/
+pytest tests/dp/
 pytest tests/utils/
 ```
 

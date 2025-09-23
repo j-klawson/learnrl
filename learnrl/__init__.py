@@ -9,4 +9,5 @@ __version__ = "0.1.0"
 __author__ = "Keith"
 
 from . import bandits  # noqa: F401
+from . import dp  # noqa: F401
 from . import utils  # noqa: F401
