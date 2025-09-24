@@ -169,28 +169,39 @@ def plot_results(results: List[ExperimentResult], save_path: Optional[str] = Non
 
     colors = ["green", "red", "blue", "orange", "purple"]
 
-    # Plot average reward
+    # Plot average reward with line labels
     for i, result in enumerate(results):
         color = colors[i % len(colors)]
-        ax1.plot(result.average_rewards, label=result.algorithm_name, color=color)
+        line = ax1.plot(result.average_rewards, color=color, linewidth=2)
+
+        # Add label at the end of each line
+        final_reward = result.average_rewards[-1]
+        ax1.text(len(result.average_rewards) - 1, final_reward,
+                f"  {result.algorithm_name}",
+                color=color, fontweight='bold',
+                verticalalignment='center')
 
     ax1.set_xlabel("Steps")
     ax1.set_ylabel("Average Reward")
     ax1.set_title("Average Reward vs Steps")
-    ax1.legend()
     ax1.grid(True, alpha=0.3)
 
-    # Plot percentage of optimal actions
+    # Plot percentage of optimal actions with line labels
     for i, result in enumerate(results):
         color = colors[i % len(colors)]
-        ax2.plot(
-            result.optimal_action_rates * 100, label=result.algorithm_name, color=color
-        )
+        optimal_rates_pct = result.optimal_action_rates * 100
+        line = ax2.plot(optimal_rates_pct, color=color, linewidth=2)
+
+        # Add label at the end of each line
+        final_rate = optimal_rates_pct[-1]
+        ax2.text(len(optimal_rates_pct) - 1, final_rate,
+                f"  {result.algorithm_name}",
+                color=color, fontweight='bold',
+                verticalalignment='center')
 
     ax2.set_xlabel("Steps")
     ax2.set_ylabel("% Optimal Action")
     ax2.set_title("Percentage of Optimal Actions vs Steps")
-    ax2.legend()
     ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
