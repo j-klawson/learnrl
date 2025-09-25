@@ -219,10 +219,26 @@ Each script includes a configurable `plotdir` variable for easy customization of
 
 ## Development
 
+### CI/CD Pipeline
+
+[![CI](https://github.com/keith/learnrl/actions/workflows/ci.yml/badge.svg)](https://github.com/keith/learnrl/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/keith/learnrl/branch/main/graph/badge.svg)](https://codecov.io/gh/keith/learnrl)
+
+The project includes a comprehensive GitHub Actions CI/CD pipeline with:
+
+- **Multi-Python Testing**: Automated testing on Python 3.8, 3.9, 3.10, 3.11
+- **Debian Containers**: All tests run in Debian 12 containers for consistency
+- **Coverage Reporting**: Automatic code coverage with Codecov integration
+- **Code Quality**: Automated Black, Flake8, and MyPy checks
+- **Security Scanning**: Bandit and Safety security vulnerability detection
+- **Gymnasium Integration**: Dedicated testing for environment compatibility
+
+The pipeline runs on all pushes and pull requests to `main` and `develop` branches.
+
 ### Test Coverage
 Current test statistics:
-- **120+ total tests** across all modules
-- **100% coverage** for implemented algorithms
+- **156 total tests** across all modules
+- **92% code coverage** (525 statements, 40 missing)
 - **Integration tests** for algorithm comparisons
 - **Parametrized tests** for edge cases and different configurations
 
@@ -231,7 +247,7 @@ Current test statistics:
 pytest
 
 # Run with coverage report
-pytest --cov=learnrl
+pytest --cov=learnrl --cov-report=term-missing
 
 # Run specific test modules
 pytest tests/bandits/
@@ -240,7 +256,7 @@ pytest tests/utils/
 ```
 
 ### Code Quality
-All code must pass these quality checks:
+All code must pass these quality checks (automatically enforced by CI):
 
 ```bash
 # Format code
@@ -250,7 +266,11 @@ black learnrl/ tests/ examples/
 mypy learnrl/
 
 # Lint code
-flake8 learnrl/
+flake8 learnrl/ --max-line-length=88
+
+# Security checks
+bandit -r learnrl/
+safety check
 
 # Run all quality checks
 black learnrl/ tests/ examples/ && mypy learnrl/ && flake8 learnrl/ && pytest

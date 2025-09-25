@@ -83,18 +83,19 @@ pip install -e ".[dev,gym]"
 
 ### Code Quality Checks
 
-Before committing any code, ensure it passes all quality checks:
+All code quality is automatically enforced through GitHub Actions CI/CD pipeline. Before committing any code, ensure it passes all quality checks:
 
 1. **Format with Black**: `black learnrl/ tests/ examples/`
 2. **Type check with Mypy**: `mypy learnrl/`
-3. **Lint with Flake8**: `flake8 learnrl/`
-4. **Run tests**: `pytest`
+3. **Lint with Flake8**: `flake8 learnrl/ --max-line-length=88`
+4. **Security checks**: `bandit -r learnrl/` and `safety check`
+5. **Run tests with coverage**: `pytest --cov=learnrl --cov-report=term-missing`
 
 All code must pass these checks before being considered complete.
 
 **Quick command to run all checks:**
 ```bash
-black learnrl/ tests/ examples/ && mypy learnrl/ && flake8 learnrl/ && pytest
+black learnrl/ tests/ examples/ && mypy learnrl/ && flake8 learnrl/ --max-line-length=88 && bandit -r learnrl/ && pytest --cov=learnrl
 ```
 
 ### Current Implementation Status
@@ -111,8 +112,8 @@ black learnrl/ tests/ examples/ && mypy learnrl/ && flake8 learnrl/ && pytest
 - ✅ Organized plot output structure with configurable directories
 
 **Test Coverage:**
-- 120+ total tests across all modules
-- 100% coverage for implemented algorithms
+- 156 total tests across all modules
+- 92% code coverage (525 statements, 40 missing)
 - Integration tests for algorithm comparisons
 - Parametrized tests for edge cases and different configurations
 - Cross-algorithm comparison testing
@@ -126,12 +127,58 @@ Core dependencies:
 
 Development dependencies:
 - `pytest` - Testing framework
+- `pytest-cov` - Coverage plugin for pytest
+- `coverage` - Code coverage measurement
 - `black` - Code formatter
 - `flake8` - Linter
 - `mypy` - Type checker
+- `bandit` - Security vulnerability scanner
+- `safety` - Dependency security checker
 
 Optional dependencies:
 - `gymnasium` - For environment-based testing and evaluation
+
+## CI/CD Pipeline
+
+The project includes a comprehensive GitHub Actions CI/CD pipeline:
+
+### Workflow Features
+- **Multi-Python Testing**: Automated testing on Python 3.8, 3.9, 3.10, 3.11
+- **Debian 12 Containers**: All jobs run in Debian 12 containers for consistency
+- **Coverage Reporting**: Automatic Codecov integration with HTML/XML reports
+- **Code Quality**: Automated Black, Flake8, and MyPy enforcement
+- **Security Scanning**: Bandit and Safety vulnerability detection
+- **Gymnasium Integration**: Dedicated testing for environment compatibility
+
+### Pipeline Jobs
+1. **test**: Main testing across all Python versions with coverage reporting
+2. **test-with-gymnasium**: Environment integration testing with optional dependencies
+3. **code-quality**: Comprehensive code quality checks (Black, Flake8, MyPy)
+4. **security**: Security vulnerability scanning (Bandit, Safety)
+
+### Workflow Triggers
+- All pushes to `main` and `develop` branches
+- All pull requests to `main` and `develop` branches
+
+### Coverage Integration
+- Automatic upload to Codecov for coverage tracking
+- HTML coverage reports available as GitHub Actions artifacts
+- Coverage configured in `pyproject.toml` with exclusions for test files
+
+### Local Testing
+Run the same checks locally before pushing:
+```bash
+# Install all dependencies including security tools
+pip install -e ".[dev]"
+
+# Run the full CI pipeline locally
+black learnrl/ tests/ examples/ && \
+mypy learnrl/ && \
+flake8 learnrl/ --max-line-length=88 && \
+bandit -r learnrl/ && \
+safety check && \
+pytest --cov=learnrl --cov-report=term-missing
+```
 
 ## Gymnasium Integration
 

@@ -31,9 +31,12 @@ dependencies = [
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "coverage>=7.0.0",
     "black>=22.0.0",
     "flake8>=5.0.0",
     "mypy>=0.991",
+    "bandit>=1.7.0",
+    "safety>=2.0.0",
 ]
 gym = [
     "gymnasium>=0.29.0",
@@ -62,3 +65,27 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+addopts = "--cov=learnrl --cov-report=term-missing --cov-report=html --cov-report=xml"
+
+[tool.coverage.run]
+source = ["learnrl"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/.*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
